@@ -24,6 +24,7 @@ Package.onUse(function (api) {
     'vulcan:newsletter@1.8.4',
     'vulcan:events@1.8.4',
     'vulcan:embed@1.8.4',
+    'vulcan:ui-bootstrap3@1.8.4'
 
   ]);
 

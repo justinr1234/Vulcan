@@ -1,12 +1,8 @@
-import { ModalTrigger, Components, registerComponent, withList, Utils } from "meteor/vulcan:core";
+import { ModalTrigger, Components, registerComponent, withList, Utils, getComponent } from "meteor/vulcan:core";
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'meteor/vulcan:i18n';
-import Button from 'react-bootstrap/lib/Button';
-import DropdownButton from 'react-bootstrap/lib/DropdownButton';
-import MenuItem from 'react-bootstrap/lib/MenuItem';
 import { withRouter } from 'react-router'
-import { LinkContainer } from 'react-router-bootstrap';
 import { Categories } from '../../modules/categories/index.js';
 import { withApollo } from 'react-apollo';
 
@@ -68,18 +64,18 @@ class CategoriesList extends PureComponent {
 
     return (
       <div>
-        <DropdownButton
+        <Components.DropdownButton
           bsStyle="default"
           className="categories-list btn-secondary"
           title={<FormattedMessage id="categories"/>}
           id="categories-dropdown"
         >
           <div className="category-menu-item category-menu-item-all dropdown-item">
-            <LinkContainer className="category-menu-item-title" to={{pathname:"/", query: allCategoriesQuery}}>
-              <MenuItem eventKey={0}>
+            <Components.LinkContainer className="category-menu-item-title" to={{pathname:"/", query: allCategoriesQuery}}>
+              <Components.MenuItem>
                 <FormattedMessage id="categories.all"/>
-              </MenuItem>
-            </LinkContainer>
+              </Components.MenuItem>
+            </Components.LinkContainer>
           </div>
           {
             // categories data are loaded
@@ -90,16 +86,16 @@ class CategoriesList extends PureComponent {
               // not any category found
               : null
             // categories are loading
-            : <div className="dropdown-item"><MenuItem><Components.Loading /></MenuItem></div>
+            : <div className="dropdown-item"><Components.MenuItem><Components.Loading /></Components.MenuItem></div>
           }
           <Components.ShowIf check={Categories.options.mutations.new.check}>
             <div className="categories-new-button category-menu-item dropdown-item">
-              <ModalTrigger title={<FormattedMessage id="categories.new"/>} component={<Button bsStyle="primary"><FormattedMessage id="categories.new"/></Button>}>
+              <ModalTrigger title={<FormattedMessage id="categories.new"/>} component={<Components.Button bsStyle="primary"><FormattedMessage id="categories.new"/></Components.Button>}>
                 <Components.CategoriesNewForm/>
               </ModalTrigger>
             </div>
           </Components.ShowIf>
-        </DropdownButton>
+        </Components.DropdownButton>
 
       </div>
     )

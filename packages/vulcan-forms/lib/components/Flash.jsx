@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Alert from 'react-bootstrap/lib/Alert'
 import { registerComponent } from 'meteor/vulcan:core';
 
 const Flash = ({message, type}) => {
@@ -8,7 +7,7 @@ const Flash = ({message, type}) => {
   type = type === "error" ? "danger" : type; // if type is "error", use "danger" instead
 
   return (
-    <Alert className="flash-message" bsStyle={type}>
+    <Components.Alert className="flash-message" bsStyle={type}>
       {Array.isArray(message) ? 
         <ul>
           {message.map((message, index) => 
@@ -17,7 +16,7 @@ const Flash = ({message, type}) => {
         </ul>
         : <span>{message.content}</span>
       }
-    </Alert>
+    </Components.Alert>
   )
 }
 

@@ -1,7 +1,6 @@
-import { registerComponent } from 'meteor/vulcan:lib';
+import { registerComponent, Components } from 'meteor/vulcan:lib';
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import Modal from 'react-bootstrap/lib/Modal'
 
 class ModalTrigger extends PureComponent {
 
@@ -24,9 +23,9 @@ class ModalTrigger extends PureComponent {
 
   renderHeader() {
     return (
-      <Modal.Header closeButton>
-        <Modal.Title>{this.props.title}</Modal.Title>
-      </Modal.Header>
+      <Components.ModalHeader closeButton>
+        {this.props.title}
+      </Components.ModalHeader>
     )
   }
 
@@ -38,7 +37,7 @@ class ModalTrigger extends PureComponent {
     return (
       <div className="modal-trigger">
         {triggerComponent}
-        <Modal
+        <Components.Modal
           className={this.props.className}
           bsSize={this.props.size}
           show={this.state.modalIsOpen}
@@ -46,10 +45,10 @@ class ModalTrigger extends PureComponent {
           dialogClassName={this.props.dialogClassName}
         >
           {this.props.title ? this.renderHeader() : null}
-          <Modal.Body>
+          <Components.ModalBody>
             {childrenComponent}
-          </Modal.Body>
-        </Modal>
+          </Components.ModalBody>
+        </Components.Modal>
       </div>
     )
   }

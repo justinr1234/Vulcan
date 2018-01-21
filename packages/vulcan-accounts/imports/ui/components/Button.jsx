@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import Button from 'react-bootstrap/lib/Button';
-import { registerComponent } from 'meteor/vulcan:core';
+import { registerComponent, Components } from 'meteor/vulcan:core';
 
 export class AccountsButton extends PureComponent {
   render () {
@@ -17,7 +16,7 @@ export class AccountsButton extends PureComponent {
 
     return type === 'link' ? 
       <a href="#" className={ className } onClick={ onClick } style={{marginRight: '10px'}}>{ label }</a> :
-      <Button
+      <Components.Button
         style={{marginRight: '10px'}}
         bsStyle="primary"
         className={ className }
@@ -25,7 +24,7 @@ export class AccountsButton extends PureComponent {
         disabled={ disabled }
         onClick={ onClick }>
         { label }
-      </Button>;
+      </Components.Button>;
   }
 }
 AccountsButton.propTypes = {

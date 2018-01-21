@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import withCurrentUser from '../containers/withCurrentUser.js';
 import withList from '../containers/withList.js';
 import { FormattedMessage, intlShape } from 'meteor/vulcan:i18n';
-import Button from 'react-bootstrap/lib/Button';
 import { getFieldValue } from './Card.jsx';
 /*
 
@@ -143,7 +142,7 @@ const DatatableContents = (props) => {
           {hasMore ?
             isLoadingMore ?
               <Components.Loading/>
-              : <Button bsStyle="primary" onClick={e => {e.preventDefault(); loadMore();}}>Load More ({count}/{totalCount})</Button>
+              : <Components.Button bsStyle="primary" onClick={e => {e.preventDefault(); loadMore();}}>Load More ({count}/{totalCount})</Components.Button>
             : null
           }
         </div>
@@ -167,7 +166,7 @@ const DatatableRow = ({ collection, columns, document, showEdit, currentUser }, 
       <td>
         <Components.ModalTrigger
           label={intl.formatMessage({id: 'datatable.edit'})}
-          component={<Button bsStyle="primary"><FormattedMessage id="datatable.edit" /></Button>}
+          component={<Components.Button bsStyle="primary"><FormattedMessage id="datatable.edit" /></Components.Button>}
         >
           <Components.DatatableEditForm collection={collection} document={document} />
         </Components.ModalTrigger>

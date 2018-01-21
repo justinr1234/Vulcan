@@ -4,7 +4,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import moment from 'moment';
-import Button from 'react-bootstrap/lib/Button';
 
 const getLabel = (field, fieldName, collection, intl) => {
   const schema = collection.simpleSchema()._schema;
@@ -101,7 +100,7 @@ const CardItem = ({label, value, typeName}) =>
 const CardEdit = (props, context) =>
   <tr>
     <td colSpan="2">
-      <Components.ModalTrigger label={context.intl.formatMessage({id: 'cards.edit'})} component={<Button bsStyle="info"><FormattedMessage id="cards.edit" /></Button>}>
+      <Components.ModalTrigger label={context.intl.formatMessage({id: 'cards.edit'})} component={<Components.Button bsStyle="info"><FormattedMessage id="cards.edit" /></Components.Button>}>
         <CardEditForm {...props} />
       </Components.ModalTrigger>
     </td>

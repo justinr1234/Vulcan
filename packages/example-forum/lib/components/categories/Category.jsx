@@ -1,8 +1,6 @@
 import { ModalTrigger, Components, registerComponent } from 'meteor/vulcan:core';
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { LinkContainer } from 'react-router-bootstrap';
-import MenuItem from 'react-bootstrap/lib/MenuItem'
 import { withRouter } from 'react-router'
 import { Categories } from '../../modules/categories/index.js';
 
@@ -27,15 +25,15 @@ class Category extends PureComponent {
 
     return (
       <div className="category-menu-item dropdown-item">
-        <LinkContainer to={{pathname:"/", query: newQuery}}>
-          <MenuItem
+        <Components.LinkContainer to={{pathname:"/", query: newQuery}}>
+          <Components.MenuItem
             eventKey={index+1}
             key={category._id}
           >
             {currentCategorySlug === category.slug ? <Components.Icon name="voted"/> :  null}
             {category.name}
-          </MenuItem>
-        </LinkContainer>
+          </Components.MenuItem>
+        </Components.LinkContainer>
         <Components.ShowIf check={Categories.options.mutations.edit.check} document={category}>{this.renderEdit()}</Components.ShowIf>
       </div>
     )
