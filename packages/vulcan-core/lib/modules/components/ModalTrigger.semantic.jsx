@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { Modal, ModalBody, ModalHeader } from 'reactstrap';
+import { Modal, Header } from 'semantic-ui-react';
 
 const propTypes = {
   className: PropTypes.string,
@@ -24,39 +24,44 @@ class ModalTrigger extends PureComponent {
     modalIsOpen: false
   };
 
-  toggle = () => {
+  openModal = () => {
     this.setState({
-      modalIsOpen: !this.state.modalIsOpen
+      modalIsOpen: true
     });
   };
 
+  closeModal = () => {
+    this.setState({
+      modalIsOpen: false
+    });
+  };
+
+
   renderHeader() {
     return (
-      <ModalHeader>
-        {this.props.title}
-      </ModalHeader>
+      <Header content={this.props.title} />
     )
   }
 
   render() {
     const triggerComponent = this.props.component ?
-      React.cloneElement(this.props.component, { onClick: this.toggle }) :
-      <a href="#" onClick={this.toggle}>{this.props.label}</a>;
+      React.cloneElement(this.props.component, { onClick: this.openModal }) :
+      <a href="#" onClick={this.openModal}>{this.props.label}</a>;
 
-    const childrenComponent = React.cloneElement(this.props.children, { closeModal: this.toggle });
+    const childrenComponent = React.cloneElement(this.props.children, { closeModal: this.closeModal });
     return (
       <div className="modal-trigger">
-        {triggerComponent}
         <Modal
+          trigger={triggerComponent}
           className={this.props.className}
           size={this.props.size}
-          isOpen={this.state.modalIsOpen}
-          toggle={this.toggle}
+          open={this.state.modalIsOpen}
+          onClose={this.closeModal}
         >
           {this.props.title ? this.renderHeader() : null}
-          <ModalBody>
+          <Modal.Content>
             {childrenComponent}
-          </ModalBody>
+          </Modal.Content>
         </Modal>
       </div>
     )

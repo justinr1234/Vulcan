@@ -5,6 +5,7 @@ Utilities for displaying icons.
 */
 
 import { Utils } from './utils.js';
+import { getUiOptions } from './ui.js';
 
 // ------------------------------ Dynamic Icons ------------------------------ //
 
@@ -57,4 +58,57 @@ Utils.icons = {
   user: "user",
   like: "heart",
   image: "picture-o",
+};
+
+Utils.semanticIcons = {
+  expand: "angle right",
+  collapse: "angle down",
+  next: "angle right",
+  close: "remove",
+  upvote: "chevron up",
+  voted: "checkmark",
+  downvote: "chevron down",
+  facebook: "facebook square",
+  twitter: "twitter",
+  googleplus: "google plus",
+  linkedin: "linkedin square",
+  comment: "comment outline",
+  share: "share square",
+  more: "ellipsis horizontal",
+  menu: "sidebar",
+  subscribe: "mail outline",
+  delete: "trash outline",
+  edit: "write",
+  popularity: "fire",
+  time: "clock",
+  best: "star",
+  search: "search",
+  approve: "check circle outline",
+  reject: "remove circle outline",
+  views: "eye",
+  clicks: "mouse pointer",
+  score: "line chart",
+  reply: "reply",
+  spinner: "spinner",
+  new: "plus",
+  user: "user",
+  like: "heart",
+  image: "picture",
+};
+
+Utils.getIcons = () => {
+  const {
+    framework
+  } = getUiOptions(null);
+
+  if (framework.includes('semantic')) {
+    return Utils.semanticIcons;
+  }
+
+  return Utils.icons;
+};
+
+Utils.setIcon = (name, value) => {
+  const icons = Utils.getIcons();
+  icons[name] = value;
 };

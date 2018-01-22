@@ -6,4 +6,4 @@ import './pics/collection.js';
 import './comments/collection.js';
 import './routes.js';
 
-Utils.icons.comment = 'comment';
+Utils.setIcon('comment', 'comment');

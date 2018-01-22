@@ -5,4 +5,4 @@ import './components.js';
 import './routes.js';
 import './products.js';
 
-Utils.icons.comment = 'comment';
+Utils.setIcon('comment', 'comment');

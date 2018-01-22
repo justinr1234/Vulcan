@@ -16,3 +16,11 @@ registerStylesheet(
     framework: 'bootstrap4'
   }
 );
+
+registerStylesheet(
+  'css',
+  <link name="semantic" rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.12/semantic.min.css" key="stylesheet-semantic"/>,
+  {
+    framework: 'semantic'
+  }
+);

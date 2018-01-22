@@ -1,6 +1,7 @@
 import { registerComponent, withCurrentUser } from 'meteor/vulcan:core';
 import PostsNewButtonBootstrap3 from './PostsNewButton.bootstrap3.jsx';
 import PostsNewButtonBootstrap4 from './PostsNewButton.bootstrap4.jsx';
+import PostsNewButtonSemantic from './PostsNewButton.semantic.jsx';
 // import React from 'react';
 // import PropTypes from 'prop-types';
 // import { FormattedMessage, intlShape } from 'meteor/vulcan:i18n';
@@ -28,5 +29,6 @@ import PostsNewButtonBootstrap4 from './PostsNewButton.bootstrap4.jsx';
 //   intl: intlShape
 // };
 
-registerComponent('PostsNewButton', PostsNewButtonBootstrap3, withCurrentUser);
+registerComponent('PostsNewButton', PostsNewButtonBootstrap3, withCurrentUser, { framework: 'bootstrap3' });
 registerComponent('PostsNewButton', PostsNewButtonBootstrap4, withCurrentUser, { framework: 'bootstrap4' });
+registerComponent('PostsNewButton', PostsNewButtonSemantic, withCurrentUser, { framework: 'semantic' });
