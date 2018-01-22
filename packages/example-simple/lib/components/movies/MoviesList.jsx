@@ -12,7 +12,7 @@ This component is a React component. We only have one but it does a bunch of thi
 
 import React from 'react';
 import Helmet from 'react-helmet';
-import { Components, withList, withCurrentUser, registerComponent } from 'meteor/vulcan:core';
+import { Components, withList, withCurrentUser, registerComponent, getCurrentStylesheets } from 'meteor/vulcan:core';
 
 import Movies from '../../modules/movies/collection.js';
 
@@ -33,12 +33,7 @@ const MoviesList = ({
     {/* First, this is a Helment tag. It's a React package that loads head tags. We're using it to load the Bootstrap stylesheet. 
       This is not Vulcan specific but it is an easy way to add tags to the head... */}
     <Helmet>
-      <link
-        name="bootstrap"
-        rel="stylesheet"
-        type="text/css"
-        href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/css/bootstrap.min.css"
-      />
+      { getCurrentStylesheets() }
     </Helmet>
 
     {/* user accounts */}

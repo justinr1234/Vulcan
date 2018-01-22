@@ -17,10 +17,10 @@ accounts-password@1.4.0
 #tutorial-step-1 - You can follow along with the video here: http://docs.vulcanjs.org/example-simple.html
 # This is where you enable packages. 
 
-example-simple
+# example-simple
 # example-movies
 # example-instagram
-# example-forum
+example-forum
 # example-customization
 # example-permissions
 # example-membership

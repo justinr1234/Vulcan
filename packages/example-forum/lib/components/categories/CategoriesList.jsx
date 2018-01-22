@@ -1,4 +1,4 @@
-import { ModalTrigger, Components, registerComponent, withList, Utils } from "meteor/vulcan:core";
+import { Components, registerComponent, withList, Utils } from "meteor/vulcan:core";
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'meteor/vulcan:i18n';
@@ -94,9 +94,9 @@ class CategoriesList extends PureComponent {
           }
           <Components.ShowIf check={Categories.options.mutations.new.check}>
             <div className="categories-new-button category-menu-item dropdown-item">
-              <ModalTrigger title={<FormattedMessage id="categories.new"/>} component={<Button bsStyle="primary"><FormattedMessage id="categories.new"/></Button>}>
+              <Components.ModalTrigger title={<FormattedMessage id="categories.new"/>} component={<Button bsStyle="primary"><FormattedMessage id="categories.new"/></Button>}>
                 <Components.CategoriesNewForm/>
-              </ModalTrigger>
+              </Components.ModalTrigger>
             </div>
           </Components.ShowIf>
         </DropdownButton>

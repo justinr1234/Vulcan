@@ -6,6 +6,8 @@ export * from 'meteor/vulcan:lib';
 export * from './default_mutations.js';
 export * from './default_resolvers.js';
 
+export * from './ui_setup.jsx';
+
 export { default as Layout } from "./components/Layout.jsx";
 export { default as App } from "./components/App.jsx";
 export { default as Icon } from "./components/Icon.jsx";

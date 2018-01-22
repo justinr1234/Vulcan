@@ -1,4 +1,4 @@
-import { ModalTrigger, Components, registerComponent } from 'meteor/vulcan:core';
+import { Components, registerComponent } from 'meteor/vulcan:core';
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { LinkContainer } from 'react-router-bootstrap';
@@ -10,9 +10,9 @@ class Category extends PureComponent {
 
   renderEdit() {
     return (
-      <ModalTrigger title="Edit Category" component={<a className="edit-category-link"><Components.Icon name="edit"/></a>}>
+      <Components.ModalTrigger title="Edit Category" component={<a className="edit-category-link"><Components.Icon name="edit"/></a>}>
         <Components.CategoriesEditForm category={this.props.category}/>
-      </ModalTrigger>
+      </Components.ModalTrigger>
     )
   }
 

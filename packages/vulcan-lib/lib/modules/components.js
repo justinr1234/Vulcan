@@ -1,7 +1,16 @@
 import { compose } from 'react-apollo'; // note: at the moment, compose@react-apollo === compose@redux ; see https://github.com/apollostack/react-apollo/blob/master/src/index.ts#L4-L7
+import { getUiOptions } from './ui.js';
+import { Promise } from 'meteor/promise';
 
 export const Components = {}; // will be populated on startup (see vulcan:routing)
 export const ComponentsTable = {} // storage for infos about components
+
+function getOptionsFromLastArgs(rest) {
+  if (rest && Array.isArray(rest) && rest.length > 0 && typeof rest[rest.length - 1] !== 'function' && !Array.isArray(rest[rest.length - 1])) {
+    return rest[rest.length - 1];
+  }
+  return null;
+}
 
 /**
  * Register a Vulcan component with a name, a raw component than can be extended
@@ -25,18 +34,45 @@ export const ComponentsTable = {} // storage for infos about components
  * }
  *
  */
-export const registerComponent = (name, rawComponent, ...hocs) => {
+export const registerComponent = (name, rawComponent, ...rest) => {
+  let hocs = rest;
+  const options = getOptionsFromLastArgs(rest);
+  if (options) {
+    hocs.splice(hocs.length - 1, 1);
+  }
+  const {
+    framework,
+    theme,
+  } = getUiOptions(options);
   // console.log('// registering component');
   // console.log(name);
   // console.log('raw component', rawComponent);
-  // console.log('higher order components', hocs); 
-
-  // store the component in the table
-  ComponentsTable[name] = {
-    name,
-    rawComponent,
-    hocs,
-  };
+  // console.log('higher order components', hocs);
+  if (!ComponentsTable[name]) {
+    ComponentsTable[name] = {
+      [framework]: {
+        [theme]: {
+          name,
+          rawComponent,
+          hocs,
+        }
+      }
+    };
+  } else if(!ComponentsTable[name][framework]) {
+    ComponentsTable[name][framework] = {
+      [theme]: {
+        name,
+        rawComponent,
+        hocs,
+      }
+    };
+  } else {
+    ComponentsTable[name][framework][theme] = {
+      name,
+      rawComponent,
+      hocs,
+    };
+  }
 };
 
 /**
@@ -45,13 +81,36 @@ export const registerComponent = (name, rawComponent, ...hocs) => {
  * @param {String} name The name of the component to get.
  * @returns {Function|React Component} A (wrapped) React component
  */
-export const getComponent = (name) => {
-  const component = ComponentsTable[name];
-  if (!component) {
-    throw new Error(`Component ${name} not registered.`)
+export const getComponent = (name, options) => {
+  const {
+    framework,
+    theme,
+  } = getUiOptions(options);
+  const {
+    framework: defaultFramework,
+    theme: defaultTheme,
+  } = getUiOptions();
+  let component;
+  if (!ComponentsTable[name]) {
+    throw new Error(`Component ${name} not registered.`);
+  } else if (!ComponentsTable[name][framework]) {
+    if (!ComponentsTable[name][defaultFramework]) {
+      throw new Error(`Component ${name} with framework ${framework} or default framework ${defaultFramework} not registered.`);
+    }
+    if (!ComponentsTable[name][defaultFramework][defaultTheme]) {
+      throw new Error(`Component ${name} with framework ${framework} or default framework ${defaultFramework} with default theme ${defaultTheme} not registered.`);
+    }
+    component = ComponentsTable[name][defaultFramework][defaultTheme];
+  } else if (!ComponentsTable[name][framework][theme]) {
+    if (!ComponentsTable[name][framework][defaultTheme]) {
+      throw new Error(`Component ${name} with framework ${framework} with theme ${theme} or defeault theme ${defaultTheme} not registered.`);
+    }
+    component = ComponentsTable[name][framework][defaultTheme];
+  } else {
+    component = ComponentsTable[name][framework][theme];
   }
   const hocs = component.hocs.map(hoc => Array.isArray(hoc) ? hoc[0](hoc[1]) : hoc);
-  return compose(...hocs)(component.rawComponent)
+  return compose(...hocs)(component.rawComponent);
 };
 
 /**
@@ -59,16 +118,15 @@ export const getComponent = (name) => {
  * ℹ️ Called once on app startup
  **/
 export const populateComponentsApp = () => {
+  const {
+    framework,
+    theme,
+  } = getUiOptions(null);
   // loop over each component in the list
-  Object.keys(ComponentsTable).map(name => {
-    
-    // populate an entry in the lookup table
-    Components[name] = getComponent(name);
-    
-    // uncomment for debug
-    // console.log('init component:', name);
+  Object.keys(ComponentsTable).forEach(name => {
+      Components[name] = getComponent(name, { framework, theme });
   });
-}
+};
 
 /**
  * Get the **raw** (original) component registered with registerComponent
@@ -77,8 +135,12 @@ export const populateComponentsApp = () => {
  * @param {String} name The name of the component to get.
  * @returns {Function|React Component} An interchangeable/extendable React component
  */
- export const getRawComponent = (name) => {
-  return ComponentsTable[name].rawComponent;
+ export const getRawComponent = (name, options) => {
+  const {
+    framework,
+    theme,
+  } = getUiOptions(options);
+  return ComponentsTable[name][framework][theme].rawComponent;
 };
 
 /**
@@ -95,8 +157,17 @@ export const populateComponentsApp = () => {
  * an empty array, and it's ok! 
  * See https://github.com/reactjs/redux/blob/master/src/compose.js#L13-L15
  */
- export const replaceComponent = (name, newComponent, ...newHocs) => {
-  const previousComponent = ComponentsTable[name];
+ export const replaceComponent = (name, newComponent, ...rest) => {
+  let newHocs = rest;
+  const options = getOptionsFromLastArgs(rest);
+  if (options) {
+    newHocs.splice(newHocs.length, 1);
+  }
+  const {
+    framework,
+    theme,
+  } = getUiOptions(options);
+  const previousComponent = ComponentsTable[name][framework][theme];
   
   // xxx : throw an error if the previous component doesn't exist
 
@@ -106,7 +177,7 @@ export const populateComponentsApp = () => {
   // console.log('new hocs', newHocs);
   // console.log('previous hocs', previousComponent.hocs);
 
-  return registerComponent(name, newComponent, ...newHocs, ...previousComponent.hocs);  
+  return registerComponent(name, newComponent, ...newHocs, ...previousComponent.hocs, { framework, theme });
 };
 
 export const copyHoCs = (sourceComponent, targetComponent) => {

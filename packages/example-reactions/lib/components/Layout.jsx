@@ -7,7 +7,7 @@ Wrapped with the "withList" and "withCurrentUser" containers.
 
 import React from 'react';
 import Helmet from 'react-helmet';
-import { Components, replaceComponent, registerComponent } from 'meteor/vulcan:core';
+import { Components, replaceComponent, registerComponent, getCurrentStylesheets } from 'meteor/vulcan:core';
 import { Link } from 'react-router';
 
 const Layout = ({children, currentUser}) => 
@@ -17,7 +17,7 @@ const Layout = ({children, currentUser}) =>
     <Components.FlashMessages />
 
     <Helmet>
-      <link name="bootstrap" rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/css/bootstrap.min.css"/>
+      { getCurrentStylesheets() }
     </Helmet>
 
     {/* user accounts */}

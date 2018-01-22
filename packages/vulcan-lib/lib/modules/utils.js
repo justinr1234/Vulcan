@@ -13,7 +13,13 @@ import { getSetting, registerSetting } from './settings.js';
 import { Routes } from './routes.js';
 import { isAbsolute } from 'path';
 
-registerSetting('debug', false, 'Enable debug mode (more verbose logging)');
+// FIXME: Weird registerSetting doesn't exist bug on frontend only
+if (!registerSetting) {
+  setTimeout(() => registerSetting('debug', false, 'Enable debug mode (more verbose logging)'), 0);
+} else {
+  registerSetting('debug', false, 'Enable debug mode (more verbose logging)')
+}
+
 
 /**
  * @summary The global namespace for Vulcan utils.

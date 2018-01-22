@@ -10,6 +10,7 @@ import {
   Routes, populateComponentsApp, populateRoutesApp, initializeFragments,
   getRenderContext,
   runCallbacks,
+  populateStylesheetsApp,
 } from 'meteor/vulcan:lib';
 
 import { RouterServer } from './router.jsx';
@@ -22,6 +23,7 @@ Meteor.startup(() => {
   initializeFragments();
   populateComponentsApp();
   populateRoutesApp();
+  populateStylesheetsApp();
   
   const indexRoute = _.filter(Routes, route => route.path === '/')[0];
   const childRoutes = _.reject(Routes, route => route.path === '/');
