@@ -11,7 +11,7 @@ registerSetting('stripe', null, 'Stripe settings');
 const stripeSettings = getSetting('stripe');
 
 // initialize Stripe
-const keySecret = Meteor.isDevelopment ? stripeSettings.secretKeyTest : stripeSettings.secretKey;
+const keySecret = Meteor.isDevelopment || stripeSettings.forceTest ? stripeSettings.secretKeyTest : stripeSettings.secretKey;
 const stripe = new Stripe(keySecret);
 
 const sampleProduct = {

@@ -37,6 +37,22 @@ As well as the following private setting (can be stored in the setting's root or
 }
 ```
 
+Stripe will automatically use test settings when `Meteor.isDevelopment` is `true`. You can also force test mode in production by setting `forceTest` to `true`.
+
+```
+{
+  "public": {
+    "stripe: {
+      "publishableKeyTest": "pk_test_K0rkFDrT0jj4NqG5Dumr3RaU"
+    }
+  },
+  "stripe": {
+    "secretKeyTest": "sk_test_sfdhj34jdsfxhjs234sd0K",
+    "forceTest": true
+  }
+}
+```
+
 ## Charges
 
 Charges are stored in the database with the following fields:
